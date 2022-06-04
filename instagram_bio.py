@@ -15,16 +15,13 @@ from webdriver_manager.chrome import ChromeDriverManager
 
 # See selenium production: http://localhost:4444/ui#/sessions
 
-def setup(method:str = "local"):
+
+def setup(method: str = "local"):
     ''' Returns: Browser session. '''
     if method == "production":
-        options = webdriver.ChromeOptions()
-        options.add_argument('--ignore-ssl-errors=yes')
-        options.add_argument('--ignore-certificate-errors')
-        options.add_experimental_option("detach", True) # Don't close.
         browser = webdriver.Remote(
             command_executor='http://selenium:4444/wd/hub',
-            options=options)
+            desired_capabilities=webdriver.DesiredCapabilities.FIREFOX)
     else:
         browser = webdriver.Chrome(ChromeDriverManager().install())
     browser.implicitly_wait(5)
