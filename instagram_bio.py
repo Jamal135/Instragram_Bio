@@ -47,7 +47,7 @@ def login(browser):
     password_input.send_keys(password)
     login_button = browser.find_element(By.XPATH, "//button[@type='submit']")
     login_button.click()
-    sleep(randint(10, 20))
+    sleep(randint(40, 60))
 
 
 def build_text():
