@@ -78,7 +78,7 @@ def update_text(browser, current_text: str):
         update_button = browser.find_element(
             By.XPATH, "//*[contains(text(), 'Submit')]")
         update_button.click()
-        print(f"Updated text to {new_text} at {datetime.now()}")
+        print(f"Updated text: {new_text} at {datetime.now()}")
     sleep(randint(30, 45))
     return new_text
 
