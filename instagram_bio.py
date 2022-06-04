@@ -78,7 +78,6 @@ if __name__ == "__main__":
                 current_text = update_text(browser, current_text)
                 fail = 0
         except Exception:
-            print(1)
             fail += 1
             if fail >= 10:
                 break     
