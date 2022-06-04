@@ -5,8 +5,8 @@ services:
     environment:
       VNC_NO_PASSWORD: 1
       SE_NODE_SESSION_TIMEOUT: 999999999
-    ports:
-      - "4444:4444"
+    #ports:             # To see UNPROTECTED output.
+    # - "4444:4444"
     shm_size: 2gb
     healthcheck:
       test: ["CMD", "/opt/bin/check-grid.sh", "--host", "0.0.0.0", "--port", "4444"]

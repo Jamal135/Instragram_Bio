@@ -19,9 +19,10 @@ from webdriver_manager.chrome import ChromeDriverManager
 def setup(method: str = "local"):
     ''' Returns: Browser session. '''
     if method == "production":
+        options = webdriver.FirefoxOptions()
         browser = webdriver.Remote(
             command_executor='http://selenium:4444/wd/hub',
-            desired_capabilities=webdriver.DesiredCapabilities.FIREFOX)
+            options=options)
     else:
         browser = webdriver.Chrome(ChromeDriverManager().install())
     browser.implicitly_wait(5)
