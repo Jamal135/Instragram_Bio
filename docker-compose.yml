@@ -1,0 +1,21 @@
+version: "3.9"
+services:
+  selenium:
+    image: "selenium/standalone-chrome"
+    environment:
+      VNC_NO_PASSWORD: 1
+    ports:
+      - "4444:4444"
+    shm_size: 2gb
+    healthcheck:
+      test: ["CMD", "/opt/bin/check-grid.sh", "--host", "0.0.0.0", "--port", "4444"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+  instagram-bio:
+    build: .
+    links:
+      - "selenium:selenium"
+    depends_on:
+      selenium:
+        condition: "service_healthy"
