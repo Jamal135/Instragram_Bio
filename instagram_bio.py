@@ -21,6 +21,7 @@ def setup(method:str = "local"):
         options = webdriver.ChromeOptions()
         options.add_argument('--ignore-ssl-errors=yes')
         options.add_argument('--ignore-certificate-errors')
+        options.add_experimental_option("detach", True) # Don't close.
         browser = webdriver.Remote(
             command_executor='http://selenium:4444/wd/hub',
             options=options)
