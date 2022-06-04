@@ -4,6 +4,7 @@ services:
     image: "selenium/standalone-firefox"
     environment:
       VNC_NO_PASSWORD: 1
+      SE_NODE_SESSION_TIMEOUT: 999999999
     ports:
       - "4444:4444"
     shm_size: 2gb
