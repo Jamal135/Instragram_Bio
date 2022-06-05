@@ -22,38 +22,38 @@ Creation Date: 06/06/2022
 ***
 # Setup:
 ---
-Regardless of if you are running this code on a server or just for fun on your PC for a bit, the first thing you need to do is create a env file in the project directory. If you fork this repository, make sure you don't commit this env file to your repository unless you want others to log into your Instagram account.
+Regardless of if you are running this code on a server or just for fun on your PC for a bit, first you need to create a env file in the project directory. If you fork this repository, don't commit this env file unless you want others to know your Instagram login.
 
 ```
 USER=your username
 PASS=your password
 ```
-If you aren't putting this code on a server, then after doing that just run the Python file with the requirements installed and you will see the automated browser pop up and hopefully everything works! If you are putting it on a server, it is probably better to go the Docker direction! In order to have this work within a Docker container first SSH into your server. From here you only need to type the following commands:
+If you aren't putting this on a server, then just run the Python file with the requirements installed and you will see the automated browser pop up and hopefully work! If you are putting this on a server, it is probably better to use Docker. In order to have this work within a Docker container first SSH into your server. From here you only need to type the following commands:
 
 ```
 1: git pull https://github.com/Jamal135/Instagram_Bio       # Download the repository.
 2: cd Instagram_Bio                                         # Enter the right directory.
 # Create your .env file!
-3: docker-compose build                                     # Get everything ready.
-4: docker-compose up -d                                     # Start the program.
+3: docker-compose up -d                                     # Start the program.
 ```
 
-The build command gets everything ready to go and will take a bit. The up command makes the code start and the -d argument detaches it from the terminal (so you don't see everything). Here are some other useful commands that may help as well!
+The up command makes the code start (building a container if none already exists) and the -d argument detaches it from the terminal. Here are some other useful commands that may help as well!
 
 ```
-docker-compose down                                         # Kill the code gracefully.
+docker-compose down                                         # Kill the container gracefully.
+docker-compose build                                        # Rebuild container if you make changes.   
 docker ps -a                                                # See Docker stuff.
 docker logs --follow instagram_bio_instagram_bio_1          # Follow code logs (^C to exit).
 ```
 
-If the code is failing in production and you want to investigate why, you can enable the commented out code in the docker-compose.yml file. Then re-build and put the container up, navigate to that port in a browser (ip:4444), click sessions, and click the camera icon. You can see and interact with the Selenium browser session and observe what is happening. Make sure to comment this out after troubleshooting as this is not behind any authentication meaning anyone else could access this as well. 
+If the code is breaking in Docker, you can uncomment the port in the docker-compose.yml file. Then build and put the container up, navigate to that port in a browser (ip:4444), click sessions, and click the camera icon to see what is happening. WARNING: This is not behind authentication, anyone who goes to this port can fully control your Instagram account through the Selenium session. Make sure to comment out again after testing.
 
 Do note, you may also need to tell Instagram your new login is not suspicious before everything works.
 
 ***
 # Acknowledgements:
 ---
-McJeffr was an absolute legend and I could not of done the Docker side of this project without them!
+McJeffr was an absolute legend and the Docker side of this project would of been impossible without them!
 Link: https://github.com/McJeffr
 
 A lot of StackOverflow posts certainly helped as well.
