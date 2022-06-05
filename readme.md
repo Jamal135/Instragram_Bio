@@ -46,7 +46,7 @@ docker ps -a                                                # See Docker stuff.
 docker logs --follow instagram_bio_instagram_bio_1          # Follow code logs (^C to exit).
 ```
 
-If the code is breaking in Docker, you can uncomment the port in the docker-compose.yml file. Then build and put the container up, navigate to that port in a browser (ip:4444), click sessions, and click the camera icon to see what is happening. WARNING: This is not behind authentication, anyone who goes to this port can fully control your Instagram account through the Selenium session. Make sure to comment out again after testing.
+If the code is breaking through Docker, you can uncomment the port in the docker-compose.yml file. Then build and put the container up, navigate to that port in a browser (ip:4444), click sessions, and click the camera icon to see what is happening. WARNING: This is not behind authentication, anyone who goes to this port can fully control your Instagram account through the Selenium session. So make sure to comment this out again after testing and kill the Docker container used for testing.
 
 Do note, you may also need to tell Instagram your new login is not suspicious before everything works.
 
