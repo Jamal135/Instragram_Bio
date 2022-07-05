@@ -7,10 +7,10 @@ import pytz
 import calendar
 from time import sleep
 from random import randint
-from datetime import datetime
 from dotenv import load_dotenv
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from datetime import datetime, timedelta, date
 from webdriver_manager.chrome import ChromeDriverManager
 
 # See selenium production: http://localhost:4444/ui#/sessions
@@ -68,6 +68,11 @@ def get_current(browser):
     return biography_input.get_attribute("value")
 
 
+def calculate_end(session_days: int = 10):
+    ''' Returns: Session restart date. '''
+    return date.today() + timedelta(days=session_days)
+
+
 def update_text(browser, current_text: str):
     new_text = build_text()
     if current_text != new_text:
@@ -94,7 +99,13 @@ if __name__ == "__main__":
             print("Login success!")
             current_text = get_current(browser)
             print(f"Current text: {current_text}")
+            end_day = calculate_end()
+            print(f"Session restarts: {end_day}")
             while True:
+                day = date.today()
+                if day == end_day:
+                    print("Session expired, restarting")
+                    break
                 current_text = update_text(browser, current_text)
                 fail = 0
         except Exception as e:
