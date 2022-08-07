@@ -13,7 +13,7 @@ from selenium.webdriver.common.by import By
 from datetime import datetime, timedelta, date
 from webdriver_manager.chrome import ChromeDriverManager
 
-# See selenium production: http://localhost:4444/ui#/sessions
+# See selenium locally: http://localhost:4444/ui#/sessions
 
 
 def setup(method: str = "local"):
