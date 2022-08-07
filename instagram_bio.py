@@ -68,7 +68,7 @@ def get_current(browser):
     return biography_input.get_attribute("value")
 
 
-def calculate_end(session_days: int = 10):
+def calculate_end(session_days: int = 9):
     ''' Returns: Session restart date. '''
     return date.today() + timedelta(days=session_days)
 
@@ -105,6 +105,7 @@ if __name__ == "__main__":
                 day = date.today()
                 if day == end_day:
                     print("Session expired, restarting")
+                    browser.quit()
                     break
                 current_text = update_text(browser, current_text)
                 fail = 0
