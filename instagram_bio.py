@@ -56,7 +56,7 @@ def build_text():
     current_time = datetime.now(pytz.timezone('Australia/Queensland'))
     hour = current_time.strftime("%I %p").replace(" ", "").lower().lstrip('0')
     day = calendar.day_name[current_time.weekday()]
-    return f"Roses are red, violets are blue... It's {hour} on a {day} and you haven't messaged yet..."
+    return f"Feels like {hour} on a {day}..."
 
 
 def get_current(browser):
