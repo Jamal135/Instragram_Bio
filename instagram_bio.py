@@ -111,9 +111,13 @@ if __name__ == "__main__":
                 fail = 0
         except Exception as e:
             print(f"Failed: \n{e}")
-            browser.quit()
+            try:
+                browser.quit()
+            except Exception as e:
+                print(f"Exception handling failed: \n{e}")
+                browser = None
             fail += 1
-            sleep(randint(1200, 1300))
+            sleep(randint(120, 130))
         except KeyboardInterrupt:
             browser.quit()
             break
