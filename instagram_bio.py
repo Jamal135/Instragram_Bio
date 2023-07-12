@@ -19,7 +19,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 def setup(method: str = "local"):
     ''' Returns: Browser session. '''
     if method == "production":
-        options = webdriver.FirefoxOptions()
+        options = webdriver.ChromeOptions()
         browser = webdriver.Remote(
             command_executor='http://selenium:4444/wd/hub',
             options=options)
@@ -111,11 +111,7 @@ if __name__ == "__main__":
                 fail = 0
         except Exception as e:
             print(f"Failed: \n{e}")
-            try:
-                browser.quit()
-            except Exception as e:
-                print(f"Exception handling failed: \n{e}")
-                browser = None
+            browser.quit()
             fail += 1
             sleep(randint(120, 130))
         except KeyboardInterrupt:
