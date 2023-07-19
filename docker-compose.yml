@@ -18,5 +18,5 @@ services:
     links:
       - "selenium-session:selenium-session"
     depends_on:
-      selenium:
+      selenium-session:
         condition: "service_healthy"
