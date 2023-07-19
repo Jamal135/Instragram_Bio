@@ -2,7 +2,7 @@
 
 ***
 # About:
----
+
 So long story short it was a cold hot winter in Australia and I decided my Instagram bio should update every hour for no reason. As a result, this repository was born. You might be asking why did I do this? The answer is simple. I don't know. None the less it is now here. If you use this, Instagram may decide you are a bot and permanently ban your account. So... it is super cool though and definitely worth the risk!
 
 Currently the bio is updated with some cool text from the function below. Really you could make this put just about anything in your bio by modifying this function below to return a different string. The code will test every minute or so if new text doesn't match current text, if this evaluates as true it will update your bio. 
@@ -21,7 +21,7 @@ Creation Date: 06/06/2022
 
 ***
 # Setup:
----
+
 Regardless of if you are running this code on a server or just for fun on your PC for a bit, first you need to create a env file in the project directory. If you fork this repository, don't commit this env file unless you want others to know your Instagram login.
 
 ```
@@ -52,7 +52,7 @@ Do note, you may also need to tell Instagram your new login is not suspicious be
 
 ***
 # Acknowledgements:
----
+
 McJeffr was an absolute legend and the Docker side of this project would of been impossible without them!
 Link: https://github.com/McJeffr
 
@@ -60,12 +60,12 @@ A lot of StackOverflow posts certainly helped as well.
 
 ***
 # Future:
----
+
 I have no idea when this code might be permanently broken by Instagram changes. None the less I will work to fix bugs and make small improvements as I see fit. This has been a fun project and makes for a funny talking point when adding people on Instagram at parties!
 
 ***
 # License:
----
-MIT License.
+
+MIT LICENSE.
 
 
