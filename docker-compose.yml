@@ -9,7 +9,7 @@ services:
     # - "4444:4444"     # NOT AUTHENTICATED, anyone can access/control your Instagram if this is enabled.
     shm_size: 2gb
     healthcheck:
-      test: ["CMD", "/opt/bin/check-grid.sh", "--host", "0.0.0.0", "--port", "4444"]
+      test: ["CMD", "curl", "-f", "http://localhost:4444/wd/hub/status"]
       interval: 10s
       timeout: 5s
       retries: 3
