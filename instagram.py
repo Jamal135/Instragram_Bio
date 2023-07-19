@@ -32,7 +32,11 @@ def setup(method: str = "local"):
 def get_secrets():
     ''' Returns: Username and password loaded from ENV. '''
     load_dotenv()
-    return os.getenv("USER"), os.getenv("PASS")
+    user = os.getenv("USER")
+    password = os.getenv("PASS")
+    if user is None or password is None:
+        raise ValueError("Environment variables USER and/or PASS not set")
+    return user, password
 
 
 def login(browser):
