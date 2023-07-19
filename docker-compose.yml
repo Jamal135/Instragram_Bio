@@ -1,6 +1,6 @@
 version: "3.9"
 services:
-  selenium-session:
+  selenium:
     image: "selenium/standalone-chrome"
     environment:
       VNC_NO_PASSWORD: 1
@@ -16,7 +16,7 @@ services:
   instagram-bot:
     build: .
     links:
-      - "selenium-session:selenium-session"
+      - "selenium:selenium"
     depends_on:
-      selenium-session:
+      selenium:
         condition: "service_healthy"
