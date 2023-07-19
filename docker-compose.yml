@@ -1,6 +1,6 @@
 version: "3.9"
 services:
-  selenium:
+  selenium-session:
     image: "selenium/standalone-chrome"
     environment:
       VNC_NO_PASSWORD: 1
@@ -13,10 +13,10 @@ services:
       interval: 10s
       timeout: 5s
       retries: 3
-  instagram-bio:
+  instagram-bot:
     build: .
     links:
-      - "selenium:selenium"
+      - "selenium-session:selenium-session"
     depends_on:
       selenium:
         condition: "service_healthy"
