@@ -121,3 +121,4 @@ if __name__ == "__main__":
         except KeyboardInterrupt:
             browser.quit()
             break
+    sys.exit(0)
