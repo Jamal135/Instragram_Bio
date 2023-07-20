@@ -13,6 +13,7 @@ services:
       interval: 10s
       timeout: 5s
       retries: 3
+    restart: unless-stopped
   instagram-bot:
     build: .
     links:
@@ -20,3 +21,4 @@ services:
     depends_on:
       selenium:
         condition: "service_healthy"
+    restart: unless-stopped
