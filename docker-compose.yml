@@ -5,7 +5,7 @@ services:
     environment:
       VNC_NO_PASSWORD: 1
       SE_NODE_SESSION_TIMEOUT: 999999999
-    #ports:             # Access in browser at ip:4444, only use briefly for troubleshooting.
+    #ports:             # Access in browser at ip:4444, only use for troubleshooting.
     # - "4444:4444"     # NOT AUTHENTICATED, anyone can access/control your Instagram if this is enabled.
     shm_size: 2gb
     healthcheck:
@@ -21,4 +21,4 @@ services:
     depends_on:
       selenium:
         condition: "service_healthy"
-    restart: unless-stopped
+    restart: on-failure

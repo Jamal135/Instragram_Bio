@@ -12,13 +12,14 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from datetime import datetime, timedelta, date
 from webdriver_manager.chrome import ChromeDriverManager
+from selenium.common.exceptions import NoSuchElementException
 
 # See selenium locally: http://localhost:4444/ui#/sessions
 
 
-def setup(method: str = "local"):
+def setup(method: str = 'local'):
     ''' Returns: Browser session. '''
-    if method == "production":
+    if method == 'production':
         options = webdriver.ChromeOptions()
         browser = webdriver.Remote(
             command_executor='http://selenium:4444/wd/hub',
@@ -29,13 +30,18 @@ def setup(method: str = "local"):
     return browser
 
 
+class EnvironmentError(Exception):
+    pass
+
+
 def get_secrets():
     ''' Returns: Username and password loaded from ENV. '''
     load_dotenv()
-    user = os.getenv("USER")
-    password = os.getenv("PASS")
-    if user is None or password is None:
-        raise ValueError("Environment variables USER and/or PASS not set")
+    try:
+        user = os.environ['USER']
+        password = os.environ['PASS']
+    except KeyError as e:
+        raise EnvironmentError(f'.env {e} not set')
     return user, password
 
 
@@ -58,18 +64,18 @@ def login(browser):
 def build_text():
     ''' Returns: Built Instagram biography string. '''
     current_time = datetime.now(pytz.timezone('Australia/Queensland'))
-    hour = current_time.strftime("%I %p").replace(" ", "").lower().lstrip('0')
+    hour = current_time.strftime('%I %p').replace(' ', '').lower().lstrip('0')
     day = calendar.day_name[current_time.weekday()]
-    return f"Feels like {hour} on a {day}..."
+    return f'Feels like {hour} on a {day}...'
 
 
 def get_current(browser):
-    ''' Purpose: Updated Instagram biography as specified. '''
+    ''' Returns: Current Instagram biography text. '''
     browser.get('https://www.instagram.com/accounts/edit/')
     sleep(randint(10, 20))
     biography_input = browser.find_element(
         By.CSS_SELECTOR, "textarea[id='pepBio']")
-    return biography_input.get_attribute("value")
+    return biography_input.get_attribute('value')
 
 
 def calculate_end(session_days: int = 9):
@@ -87,38 +93,45 @@ def update_text(browser, current_text: str):
         update_button = browser.find_element(
             By.XPATH, "//*[contains(text(), 'Submit')]")
         update_button.click()
-        print(f"Updated text: {new_text} at {datetime.now()}")
+        print(f'Updated text: {new_text} at {datetime.now()}')
     sleep(randint(30, 45))
     return new_text
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     fail = 0
     while fail <= 10:
-        environment = sys.argv[1] if len(sys.argv) >= 2 else "local"
-        print(f"Running as: {environment}")
+        environment = sys.argv[1] if len(sys.argv) >= 2 else 'local'
+        print(f'Running as: {environment}')
         browser = setup(environment)
         try:
             login(browser)
-            print("Login success!")
             current_text = get_current(browser)
-            print(f"Current text: {current_text}")
+            print('Login success!')
+            print(f'Current text: {current_text}')
             end_day = calculate_end()
-            print(f"Session restarts: {end_day}")
+            print(f'Session restarts: {end_day}')
             while True:
                 day = date.today()
                 if day == end_day:
-                    print("Session expired, restarting")
+                    print('Session expired, restarting')
                     browser.quit()
                     break
                 current_text = update_text(browser, current_text)
                 fail = 0
-        except Exception as e:
-            print(f"Failed: \n{e}")
-            browser.quit()
-            fail += 1
-            sleep(randint(120, 130))
+        except NoSuchElementException as e:
+            print(f'Failed, element issue:\n{e}')
+            break
+        except EnvironmentError:
+            print('Set .env file!')
+            break
         except KeyboardInterrupt:
             browser.quit()
             break
+        except Exception as e:
+            print(f'Failed: {fail}\n{e}')
+            browser.quit()
+            fail += 1
+            sleep(randint(720, 960))
+    print('Process exiting due to issue...')
     sys.exit(0)
