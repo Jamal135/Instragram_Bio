@@ -8,8 +8,8 @@ COPY requirements.txt requirements.txt
 RUN pip3 install -r requirements.txt
 
 COPY start.sh start.sh
-RUN chmod +x /app/start.sh
+RUN chmod +x start.sh
 
 COPY . .
 
-CMD ["./app/start.sh"]
+CMD ["./start.sh"]
