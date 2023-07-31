@@ -20,4 +20,4 @@ services:
       - "selenium:selenium"
     depends_on:
       - selenium
-    restart: no
+    restart: on-failure:0
