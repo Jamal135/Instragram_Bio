@@ -129,7 +129,7 @@ if __name__ == '__main__':
             browser.quit()
             break
         except Exception as e:
-            print(f'Failed: {fail}\n{e}')
+            print(f'Failed: #{fail}\n{e}')
             browser.quit()
             fail += 1
             sleep(randint(720, 960))

@@ -19,6 +19,5 @@ services:
     links:
       - "selenium:selenium"
     depends_on:
-      selenium:
-        condition: "service_healthy"
-    restart: on-failure
+      - selenium
+    restart: no

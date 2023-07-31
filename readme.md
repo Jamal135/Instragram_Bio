@@ -31,7 +31,7 @@ PASS=your password
 If you aren't putting this on a server, then just run the Python file with the requirements installed and you will see the automated browser pop up and hopefully work! If you are putting this on a server, it is probably better to use Docker. In order to have this work within a Docker container first SSH into your server. From here you only need to type the following commands:
 
 ```
-1: git clone https://github.com/Jamal135/Instagram_Bio       # Download the repository.
+1: git clone https://github.com/Jamal135/Instagram_Bio      # Download the repository.
 2: cd Instagram_Bio                                         # Enter the right directory.
 # Create your .env file!
 3: docker-compose up -d                                     # Start the program.
