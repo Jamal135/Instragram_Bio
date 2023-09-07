@@ -7,7 +7,7 @@ services:
     image: "selenium/standalone-chrome"
     deploy:
       restart_policy:
-        condition: on-failure
+        condition: any
       resources:
         limits:
           cpus: '0.5'
@@ -15,6 +15,8 @@ services:
     environment:
       VNC_NO_PASSWORD: 1
       SE_NODE_SESSION_TIMEOUT: 999999999
+    networks:
+      - web
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:4444/wd/hub/status"]
       interval: 10s
@@ -28,7 +30,7 @@ services:
     deploy:
       restart_policy:
         condition: on-failure
-        max-attempts: 0
+        max-attempts: 1
       resources:
         limits:
           cpus: '0.5'
@@ -37,3 +39,9 @@ services:
       - "selenium:selenium"
     depends_on:
       - selenium
+    networks:
+      - web
+
+networks:
+  web:
+    name: instabot_web
