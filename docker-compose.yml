@@ -3,7 +3,6 @@ version: "3.8"
 services:
   selenium:
     container_name: browser
-    read_only: true
     image: "selenium/standalone-chrome"
     deploy:
       restart_policy:
@@ -30,7 +29,7 @@ services:
     deploy:
       restart_policy:
         condition: on-failure
-        max_attempts: 1
+        max_attempts: 0
       resources:
         limits:
           cpus: '0.5'
