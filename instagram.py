@@ -45,7 +45,7 @@ def get_secrets():
     return user, password
 
 
-def login(browser):
+def login(browser: webdriver.Chrome):
     ''' Purpose: Logs into Instagram via Selenium. '''
     username, password = get_secrets()
     browser.get('https://www.instagram.com/')
@@ -69,7 +69,7 @@ def build_text():
     return f'Feels like {hour} on a {day}...'
 
 
-def get_current(browser):
+def get_current(browser: webdriver.Chrome):
     ''' Returns: Current Instagram biography text. '''
     browser.get('https://www.instagram.com/accounts/edit/')
     sleep(randint(10, 20))
@@ -83,7 +83,7 @@ def calculate_end(session_days: int = 9):
     return date.today() + timedelta(days=session_days)
 
 
-def update_text(browser, current_text: str):
+def update_text(browser: webdriver.Chrome, current_text: str):
     new_text = build_text()
     if current_text != new_text:
         biography_input = browser.find_element(
