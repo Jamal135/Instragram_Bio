@@ -29,7 +29,6 @@ services:
     deploy:
       restart_policy:
         condition: on-failure
-        max_attempts: 0
       resources:
         limits:
           cpus: '0.5'
