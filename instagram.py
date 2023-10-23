@@ -127,10 +127,6 @@ if __name__ == '__main__':
                     break
                 current_text = update_text(browser, current_text)
                 fail = 0
-        except NoSuchElementException as e:
-            Log.error(f'Code failed, element issue:\n{e}')
-            Log.trace({e.__traceback__})
-            break
         except EnvironmentError:
             Log.alert('Set .env file!')
             break
@@ -140,6 +136,7 @@ if __name__ == '__main__':
         except Exception as e:
             Log.error({e})
             Log.trace({e.__traceback__})
+            Log.dump(browser.page_source)
             Log.warn(f'Failed: #{fail}')
             browser.quit()
             fail += 1

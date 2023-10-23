@@ -45,4 +45,4 @@ class Log:
     def dump(object):
         ''' Formats: [*] DUMP: dump on next line '''
         content = pprint.pformat(vars(object) if hasattr(object, '__dict__') else object)
-        print(f'{Log.PREFIX_DUMP}\n{Fore.LIGHTBLACK_EX}{content}{Style.RESET_ALL}')
+        print(f'{Log.PREFIX_DUMP}\n{Fore.RED}{content}{Style.RESET_ALL}')
