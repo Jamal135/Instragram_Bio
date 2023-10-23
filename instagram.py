@@ -5,6 +5,7 @@ import os
 import sys
 import pytz
 import calendar
+import traceback
 from time import sleep
 from random import randint
 from dotenv import load_dotenv
@@ -19,7 +20,7 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.chrome.service import Service as ChromeService
 
 # Internal Imports
-
+from logger_formats import Log
 
 # See selenium locally: http://localhost:4444/ui#/sessions
 
@@ -102,7 +103,7 @@ def update_text(browser: webdriver.Chrome, current_text: str):
         update_button = browser.find_element(By.XPATH, "//*[contains(text(), 'Submit')]")
         update_button.click()
         verify_update(browser)
-        print(f'Updated text: {new_text} at {datetime.now()}')
+        Log.status(f'Updated text: {new_text} at {datetime.now()}')
     sleep(randint(30, 45))
     return new_text
 
@@ -111,36 +112,36 @@ if __name__ == '__main__':
     fail = 0
     while fail <= 10:
         environment = sys.argv[1] if len(sys.argv) >= 2 else 'local'
-        print(f'Running as: {environment}')
+        Log.info(f'Running as: {environment}')
         browser = setup(environment)
         try:
             login(browser)
             current_text = get_current(browser)
-            print('Login success!')
-            print(f'Current text: {current_text}')
+            Log.status('Login success!')
+            Log.info(f'Current text: {current_text}')
             end_day = calculate_end()
-            print(f'Session restarts: {end_day}')
+            Log.info(f'Session restarts: {end_day}')
             while True:
                 day = date.today()
                 if day == end_day:
-                    print('Session expired, restarting')
+                    Log.status('Session expired, restarting')
                     browser.quit()
                     break
                 current_text = update_text(browser, current_text)
                 fail = 0
         except NoSuchElementException as e:
-            print(f'Failed, element issue:\n{e}')
+            Log.error(f'Code failed, element issue:\n{e}\n{traceback.print_exc()}')
             break
         except EnvironmentError:
-            print('Set .env file!')
+            Log.alert('Set .env file!')
             break
         except KeyboardInterrupt:
             browser.quit()
             break
         except Exception as e:
-            print(f'Failed: #{fail}\n{e}')
+            Log.error(f'Failed: #{fail}\n{e}\n{traceback.print_exc()}')
             browser.quit()
             fail += 1
             sleep(randint(720, 960))
-    print('Process exiting...')
+    Log.alert('Process exiting...')
     sys.exit(0)
