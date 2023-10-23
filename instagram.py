@@ -13,6 +13,7 @@ from selenium.webdriver.common.by import By
 from datetime import datetime, timedelta, date
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.chrome.service import Service as ChromeService
 
 # See selenium locally: http://localhost:4444/ui#/sessions
 
@@ -25,7 +26,8 @@ def setup(method: str = 'local'):
             command_executor='http://selenium:4444/wd/hub',
             options=options)
     else:
-        browser = webdriver.Chrome(ChromeDriverManager().install())
+        service = ChromeService(executable_path=ChromeDriverManager().install())
+        browser = webdriver.Chrome(service=service)
     browser.implicitly_wait(5)
     return browser
 
