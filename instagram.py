@@ -5,7 +5,6 @@ import os
 import sys
 import pytz
 import calendar
-import traceback
 from time import sleep
 from random import randint
 from dotenv import load_dotenv
@@ -26,14 +25,15 @@ from logger_formats import Log
 
 def setup(method: str = 'local'):
     ''' Returns: Browser session. '''
-    if method == 'production':
-        options = webdriver.ChromeOptions()
+    options = webdriver.ChromeOptions()
+    #options.add_argument('--no-sandbox')
+    if method == 'production': 
         browser = webdriver.Remote(
             command_executor='http://selenium:4444/wd/hub',
             options=options)
     else:
         service = ChromeService(executable_path=ChromeDriverManager().install())
-        browser = webdriver.Chrome(service=service)
+        browser = webdriver.Chrome(service=service, options=options)
     browser.implicitly_wait(5)
     return browser
 
@@ -130,7 +130,8 @@ if __name__ == '__main__':
                 current_text = update_text(browser, current_text)
                 fail = 0
         except NoSuchElementException as e:
-            Log.error(f'Code failed, element issue:\n{e}\n{traceback.print_exc()}')
+            Log.error(f'Code failed, element issue:\n{e}')
+            Log.trace({e.__traceback__})
             break
         except EnvironmentError:
             Log.alert('Set .env file!')
@@ -139,7 +140,9 @@ if __name__ == '__main__':
             browser.quit()
             break
         except Exception as e:
-            Log.error(f'Failed: #{fail}\n{e}\n{traceback.print_exc()}')
+            Log.error({e})
+            Log.trace({e.__traceback__})
+            Log.warn(f'Failed: #{fail}')
             browser.quit()
             fail += 1
             sleep(randint(720, 960))

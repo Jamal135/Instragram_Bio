@@ -23,24 +23,24 @@ class Log:
     @staticmethod
     def info(message: str):
         ''' Formats: [i] message '''
-        print(f'{Log.PREFIX_INFO} {Fore.LIGHTBLACK_EX}{message}{Style.RESET_ALL}')
+        print(f'{Log.PREFIX_INFO} {Fore.BLUE}{message}{Style.RESET_ALL}')
     @staticmethod
     def warn(message: str):
         ''' Format: [*] Warning: message '''
-        print(f'{Log.PREFIX_WARN} {Fore.LIGHTBLACK_EX}{message}{Style.RESET_ALL}')
+        print(f'{Log.PREFIX_WARN} {Fore.CYAN}{message}{Style.RESET_ALL}')
     @staticmethod
     def alert(message: str):
         ''' Format: [!] Alert: message '''
-        print(f'{Log.PREFIX_ALERT} {Fore.LIGHTBLACK_EX}{message}{Style.RESET_ALL}')
+        print(f'{Log.PREFIX_ALERT} {Fore.RED}{message}{Style.RESET_ALL}')
     @staticmethod
     def error(message: str):
         ''' Format: [!] ERROR: message '''
-        print(f'{Log.PREFIX_ERROR} {Fore.LIGHTBLACK_EX}{message}{Style.RESET_ALL}')
+        print(f'{Log.PREFIX_ERROR} {Fore.RED}{message}{Style.RESET_ALL}')
     @staticmethod
     def trace(error_traceback):
         ''' Formats: [!] TRACE: trace on next line '''
         formatted_traceback = ''.join(traceback.format_tb(error_traceback))
-        print(f'{Log.PREFIX_TRACE}\n{Fore.LIGHTBLACK_EX}{formatted_traceback}{Style.RESET_ALL}')
+        print(f'{Log.PREFIX_TRACE}\n{Fore.RED}{formatted_traceback}{Style.RESET_ALL}')
     @staticmethod
     def dump(object):
         ''' Formats: [*] DUMP: dump on next line '''

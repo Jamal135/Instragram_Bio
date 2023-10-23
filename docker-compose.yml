@@ -4,6 +4,7 @@ services:
   selenium:
     container_name: browser
     image: "selenium/standalone-chrome"
+    shm_size: "500mb"
     deploy:
       restart_policy:
         condition: any
