@@ -26,7 +26,6 @@ from logger_formats import Log
 def setup(method: str = 'local'):
     ''' Returns: Browser session. '''
     options = webdriver.ChromeOptions()
-    #options.add_argument('--no-sandbox')
     if method == 'production': 
         browser = webdriver.Remote(
             command_executor='http://selenium:4444/wd/hub',
@@ -106,7 +105,6 @@ def update_text(browser: webdriver.Chrome, current_text: str):
         Log.status(f'Updated text: {new_text} at {datetime.now()}')
     sleep(randint(30, 45))
     return new_text
-
 
 if __name__ == '__main__':
     fail = 0

@@ -21,7 +21,7 @@ services:
       test: ["CMD", "curl", "-f", "http://localhost:4444/wd/hub/status"]
       interval: 10s
       timeout: 5s
-      retries: 3
+      retries: 10
 
   instagram-bot:
     container_name: instabot

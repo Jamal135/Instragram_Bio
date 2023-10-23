@@ -19,7 +19,7 @@ class Log:
     @staticmethod
     def status(message: str):
         ''' Format: [-] message '''
-        print(f'{Log.PREFIX_STATUS} {message}')
+        print(f'{Log.PREFIX_STATUS} {Fore.GREEN}{message}{Style.RESET_ALL}')
     @staticmethod
     def info(message: str):
         ''' Formats: [i] message '''
