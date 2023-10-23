@@ -1,6 +1,6 @@
-# Creation Date: 01/06/2022
+''' Creation Date: 01/06/2022 '''
 
-
+# External Imports
 import os
 import sys
 import pytz
@@ -10,13 +10,18 @@ from random import randint
 from dotenv import load_dotenv
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import TimeoutException
 from datetime import datetime, timedelta, date
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.chrome.service import Service as ChromeService
 
-# See selenium locally: http://localhost:4444/ui#/sessions
+# Internal Imports
 
+
+# See selenium locally: http://localhost:4444/ui#/sessions
 
 def setup(method: str = 'local'):
     ''' Returns: Browser session. '''
@@ -31,10 +36,8 @@ def setup(method: str = 'local'):
     browser.implicitly_wait(5)
     return browser
 
-
 class EnvironmentError(Exception):
     pass
-
 
 def get_secrets():
     ''' Returns: Username and password loaded from ENV. '''
@@ -45,7 +48,6 @@ def get_secrets():
     except KeyError as e:
         raise EnvironmentError(f'.env {e} not set')
     return user, password
-
 
 def login(browser: webdriver.Chrome):
     ''' Purpose: Logs into Instagram via Selenium. '''
@@ -62,14 +64,12 @@ def login(browser: webdriver.Chrome):
     login_button.click()
     sleep(randint(40, 60))
 
-
 def build_text():
     ''' Returns: Built Instagram biography string. '''
     current_time = datetime.now(pytz.timezone('Australia/Queensland'))
     hour = current_time.strftime('%I %p').replace(' ', '').lower().lstrip('0')
     day = calendar.day_name[current_time.weekday()]
     return f'Feels like {hour} on a {day}...'
-
 
 def get_current(browser: webdriver.Chrome):
     ''' Returns: Current Instagram biography text. '''
@@ -79,22 +79,29 @@ def get_current(browser: webdriver.Chrome):
         By.CSS_SELECTOR, "textarea[id='pepBio']")
     return biography_input.get_attribute('value')
 
-
 def calculate_end(session_days: int = 9):
     ''' Returns: Session restart date. '''
     return date.today() + timedelta(days=session_days)
 
+def verify_update(browser: webdriver.Chrome):
+    ''' Purpose: Catch exception if no browser indication of bio text update. '''
+    try:
+        WebDriverWait(browser, 5).until(EC.text_to_be_present_in_element(
+            (By.XPATH, "//p[contains(text(), 'Profile saved.')]"), 'Profile saved.'
+        ))
+    except TimeoutException:
+        raise TimeoutException('Failed to verify that bio updated...')
 
 def update_text(browser: webdriver.Chrome, current_text: str):
+    ''' Returns: Current bio - will update bio text if out of date. '''
     new_text = build_text()
     if current_text != new_text:
-        biography_input = browser.find_element(
-            By.CSS_SELECTOR, "textarea[id='pepBio']")
+        biography_input = browser.find_element(By.CSS_SELECTOR, "textarea[id='pepBio']")
         biography_input.clear()
         biography_input.send_keys(new_text)
-        update_button = browser.find_element(
-            By.XPATH, "//*[contains(text(), 'Submit')]")
+        update_button = browser.find_element(By.XPATH, "//*[contains(text(), 'Submit')]")
         update_button.click()
+        verify_update(browser)
         print(f'Updated text: {new_text} at {datetime.now()}')
     sleep(randint(30, 45))
     return new_text
@@ -135,5 +142,5 @@ if __name__ == '__main__':
             browser.quit()
             fail += 1
             sleep(randint(720, 960))
-    print('Process exiting due to issue...')
+    print('Process exiting...')
     sys.exit(0)

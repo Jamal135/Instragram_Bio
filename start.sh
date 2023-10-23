@@ -13,6 +13,3 @@ for i in {1..10}; do
 done
 echo "Selenium is not ready, exiting..."
 exit 1
-
-
-
