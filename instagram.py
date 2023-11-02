@@ -134,8 +134,8 @@ if __name__ == '__main__':
             browser.quit()
             break
         except Exception as e:
-            Log.error({e})
-            Log.trace({e.__traceback__})
+            Log.error(e)
+            Log.trace(e.__traceback__)
             Log.dump(browser.page_source)
             Log.warn(f'Failed: #{fail}')
             browser.quit()
