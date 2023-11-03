@@ -28,7 +28,8 @@ def setup(method: str = 'local'):
     if method == 'production': 
         browser = webdriver.Remote(
             command_executor='http://selenium:4444/wd/hub',
-            options=options)
+            options=options
+        )
     else:
         service = ChromeService(executable_path=ChromeDriverManager().install())
         browser = webdriver.Chrome(service=service, options=options)
@@ -53,15 +54,17 @@ def login(browser: webdriver.Chrome):
     username, password = get_secrets()
     browser.get('https://www.instagram.com/')
     sleep(randint(10, 20))
-    username_input = browser.find_element(
-        By.CSS_SELECTOR, "input[name='username']")
-    password_input = browser.find_element(
-        By.CSS_SELECTOR, "input[name='password']")
+    username_input = browser.find_element(By.CSS_SELECTOR, "input[name='username']")
+    password_input = browser.find_element(By.CSS_SELECTOR, "input[name='password']")
     username_input.send_keys(username)
     password_input.send_keys(password)
     login_button = browser.find_element(By.XPATH, "//button[@type='submit']")
     login_button.click()
     sleep(randint(40, 60))
+
+def get_account_details(browser: webdriver.Chrome):
+    ''' Purpose: Loads the Instagram accounts page. '''
+    browser.get('https://www.instagram.com/accounts/edit/')
 
 def build_text():
     ''' Returns: Built Instagram biography string. '''
@@ -72,10 +75,9 @@ def build_text():
 
 def get_current(browser: webdriver.Chrome):
     ''' Returns: Current Instagram biography text. '''
-    browser.get('https://www.instagram.com/accounts/edit/')
+    get_account_details(browser)
     sleep(randint(10, 20))
-    biography_input = browser.find_element(
-        By.CSS_SELECTOR, "textarea[id='pepBio']")
+    biography_input = browser.find_element(By.CSS_SELECTOR, "textarea[id='pepBio']")
     return biography_input.get_attribute('value')
 
 def calculate_end(session_days: int = 9):
@@ -85,9 +87,9 @@ def calculate_end(session_days: int = 9):
 def verify_update(browser: webdriver.Chrome):
     ''' Purpose: Catch exception if no browser indication of bio text update. '''
     try:
-        WebDriverWait(browser, 5).until(EC.text_to_be_present_in_element(
-            (By.XPATH, "//p[contains(text(), 'Profile saved.')]"), 'Profile saved.'
-        ))
+        WebDriverWait(browser, 8).until(EC.text_to_be_present_in_element(
+            (By.XPATH, "//p[contains(text(), 'Profile saved.')]"), 'Profile saved.')
+        )
     except TimeoutException:
         raise TimeoutException('Failed to verify that bio updated...')
 
@@ -95,6 +97,7 @@ def update_text(browser: webdriver.Chrome, current_text: str):
     ''' Returns: Current bio - will update bio text if out of date. '''
     new_text = build_text()
     if current_text != new_text:
+        get_account_details(browser)
         biography_input = browser.find_element(By.CSS_SELECTOR, "textarea[id='pepBio']")
         biography_input.clear()
         biography_input.send_keys(new_text)
@@ -135,7 +138,6 @@ if __name__ == '__main__':
         except Exception as e:
             Log.error(e)
             Log.trace(e.__traceback__)
-            Log.dump(browser.page_source)
             Log.warn(f'Failed: #{fail}')
             browser.quit()
             fail += 1
