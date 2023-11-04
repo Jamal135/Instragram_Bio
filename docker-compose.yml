@@ -5,13 +5,9 @@ services:
     container_name: browser
     image: "selenium/standalone-chrome"
     shm_size: "500mb"
-    deploy:
-      restart_policy:
-        condition: any
-      resources:
-        limits:
-          cpus: '0.5'
-          memory: 750M
+    restart: on-failure
+    cpus: '0.5'
+    mem_limit: 750M
     environment:
       VNC_NO_PASSWORD: 1
       SE_NODE_SESSION_TIMEOUT: 999999999
@@ -27,13 +23,10 @@ services:
     container_name: instabot
     read_only: true
     build: .
-    deploy:
-      restart_policy:
-        condition: on-failure
-      resources:
-        limits:
-          cpus: '0.5'
-          memory: 1000M
+    env_file: .env
+    restart: on-failure
+    cpus: '0.5'
+    mem_limit: 1000M
     links:
       - "selenium:selenium"
     depends_on:
