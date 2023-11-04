@@ -1,1 +1,5 @@
 .env
+Dockerfile
+docker-compose.yml
+*.md
+requirements.txt
