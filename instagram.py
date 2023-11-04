@@ -41,9 +41,7 @@ class EnvironmentError(Exception):
 
 def get_secrets():
     ''' Returns: Username and password loaded from ENV. '''
-    # Load .env only if the DEV_ENV variable is set
-    if os.environ.get('DEV_ENV'):
-        load_dotenv()
+    load_dotenv()
     try:
         user = os.environ['USER']
         password = os.environ['PASS']
