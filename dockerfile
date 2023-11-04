@@ -1,10 +1,10 @@
 FROM python:3.10.2-slim-buster
 
-COPY . .
-
 RUN adduser --disabled-password --gecos '' --shell /usr/sbin/nologin user
 
 WORKDIR /app
+
+COPY . .
 
 RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*
 
