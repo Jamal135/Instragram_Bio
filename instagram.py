@@ -105,7 +105,7 @@ def update_text(browser: webdriver.Chrome, current_text: str):
         update_button.click()
         verify_update(browser)
         Log.status(f'Updated text: {new_text} at {datetime.now()}')
-    sleep(randint(1, 3))
+    sleep(randint(1, 2))
     return new_text
 
 if __name__ == '__main__':
