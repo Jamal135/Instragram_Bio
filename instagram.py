@@ -71,7 +71,7 @@ def build_text():
     current_time = datetime.now(pytz.timezone('Australia/Queensland'))
     hour = current_time.strftime('%I %p').replace(' ', '').lower().lstrip('0')
     day = calendar.day_name[current_time.weekday()]
-    return f'Tell Simon it feels like {hour} on a {day}...'
+    return f'It is {hour} on a {day}...'
 
 def get_current(browser: webdriver.Chrome):
     ''' Returns: Current Instagram biography text. '''
