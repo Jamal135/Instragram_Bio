@@ -63,8 +63,11 @@ def login(browser: webdriver.Chrome):
     sleep(randint(40, 60))
 
 def get_account_details(browser: webdriver.Chrome):
-    ''' Purpose: Loads the Instagram accounts page. '''
+    ''' Purpose: Loads the Instagram accounts page, implicitly waiting for biography input. '''
     browser.get('https://www.instagram.com/accounts/edit/')
+    WebDriverWait(browser, 20).until(
+        EC.presence_of_element_located((By.CSS_SELECTOR, "textarea[id='pepBio']"))
+    )
 
 def build_text():
     ''' Returns: Built Instagram biography string. '''
@@ -76,7 +79,6 @@ def build_text():
 def get_current(browser: webdriver.Chrome):
     ''' Returns: Current Instagram biography text. '''
     get_account_details(browser)
-    sleep(randint(10, 20))
     biography_input = browser.find_element(By.CSS_SELECTOR, "textarea[id='pepBio']")
     return biography_input.get_attribute('value')
 
