@@ -3,6 +3,8 @@
 ***
 # About:
 
+> Note: This repository is archived, has been [rewritten](https://github.com/Jamal135/InstaBioBot) in Kotlin.
+
 So long story short it was a cold hot winter in Australia and I decided my Instagram bio should update every hour for no reason. As a result, this repository was born. You might be asking why did I do this? The answer is simple. I don't know. None the less it is now here. If you use this, Instagram may decide you are a bot and permanently ban your account. So... it is super cool though and definitely worth the risk!
 
 Currently the bio is updated with some cool text from the function below. Really you could make this put just about anything in your bio by modifying this function below to return a different string. The code will test every minute or so if new text doesn't match current text, if this evaluates as true it will update your bio. 
